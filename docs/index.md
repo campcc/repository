@@ -1,7 +1,7 @@
 ---
 hero:
   title: repository
-  desc: repository site example
+  desc: Front end repository includes JS, network, browser related, performance optimization, security, framework, Git, data structure, algorithm, etc.
   actions:
     - text: Getting Started
       link: /components
