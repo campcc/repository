@@ -3,7 +3,7 @@ title: 内置类型
 order: 1
 nav:
   title: JavaScript
-  order: 2
+  order: 4
 ---
 
 # 内置类型
