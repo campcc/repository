@@ -127,8 +127,7 @@ element.removeEventListener(event, function, useCapture); // 移除事件处理�
 
 ```js
 function handler() {
-  // 由于配置对象的 once 属性打开，监听函数只会执行一次
-  console.log('once');
+  console.log('once'); // 由于配置对象的 once 属性打开，监听函数只会执行一次
 }
 
 element.addEventListener('click', handler, { once: true });
