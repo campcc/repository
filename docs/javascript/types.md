@@ -16,9 +16,9 @@ JavaScript 提供了 7 种内置类型，七种内置类型又分为两大类型
 
 引用类型特指对象：`object`。
 
-基本类型与引用类型在存储上有一定区别，基本类型的变量，其标识符和值都存储在 **栈** 中，因为它们占用空间较小，且一经确认后就不会改变，基本类型是**按值访问的**。
+基本类型与引用类型在存储上有一定区别，基本类型的变量，其标识符和值都存储在 **栈** 中，因为它们占据空间小、大小固定，属于被频繁使用数据，基本类型时**按值访问的**。
 
-引用类型的值存储在 **堆** 中，由于 JavaScript 不允许直接访问内存中的位置，为了访问引用类型的值，会在 **栈** 中存放值的指针（对应堆中的地址），所以引用类型其实是**按地址访问的**。
+引用类型的值存储在 **堆** 中，由于 JavaScript 不允许直接访问内存中的位置，为了访问引用类型的值，会在 **栈** 中存放值的指针（对应堆中的起始地址），所以引用类型其实是**按地址访问的**，当解释器寻找引用值时，会首先检索其在栈中的地址，取得地址后从堆中获得实体。
 
 **JavaScript 中的值有类型，但变量无类型**。所以内置类型是相对于 JavaScript 中的值而言的，而变量只是这些值的容器。
 
@@ -54,7 +54,9 @@ typeof console.log; // "function"
 
 ### instanceof
 
-`instnaceof` 的机制是，通过判断对象的原型链中是否能找到类型的 `prototype`，`instanceof` 可以用来判断对象的类型：
+** 想判断一个对象的类型，可以考虑使用 instanceof。**
+
+`instnaceof` 的机制是，通过判断对象的原型链中是否能找到类型的 `prototype`：
 
 ```js
 var obj = {};
@@ -85,7 +87,50 @@ function _instanceof(left, right) {
 
 ### constructor
 
+我们知道当创建一个函数 **F** 时，JavaScript 引擎会为 **F** 添加 `prototype` 属性，然后在 `prototype` 属性上添加一个 `constructor` 属性，让它指向 **F** 的引用：
+
+```js
+function F() {}
+F.prototype.constructor === F; // true
+```
+
+这是引擎默认的行为，目的是表明**对象是由哪个函数构造的**，在 JavaScript 中，`function` 其实就是一个语法糖，所有的函数本质上都是一个 `Function` 对象。利用这一特性，我们可以通过 `constructor` 来判断对象的数据类型，因为 JavaScript 为我们提供了很多的内置对象：
+
+```js
+[].constructor === Array // true
+''.constructor === String // true
+false.constructor === Boolean // true
+... ...
+```
+
+但是 `constructor` 是不可靠的，因为对象的原型是可以被修改的，比如：
+
+```js
+function F() {}
+F.prototype = new Array();
+var f = new F();
+f.constructor === F; // false
+f.constructor === Array; // true
+```
+
 ### Object.prototype.toString
+
+JavaScript 类型转换中有一种相当重要的种类叫：**装箱转换**。
+
+每一种基本类型 `Number、String、Boolean、Symbol` 在对象中都有对应的类，所谓装箱转换，正是把基本类型转换为对应的对象。
+
+使用内置的 `Object` 函数，我们可以在 JavaScript 代码中显式调用装箱能力，而在 JavaScript 中，没有任何方法可以更改私有的 `Class` 属性，因此 `Object.prototype.toString` 是可以准确识别对象对应的基本类型的方法。
+
+每一类装箱对象皆有私有的 `Class` 属性，这些属性可以用 `Object.prototype.toString` 获取：
+
+```js
+Object.prototype.toString.call(''); // [object String]
+Object.prototype.toString.call(null); // [object Null]
+Object.prototype.toString.call(undefined); // [object Undefined]
+Object.prototype.toString.call(NaN); // [object Number]
+```
+
+需要注意的是，`call` 本身会产生装箱操作，所以需要配合 `typeof` 来区分基本类型还是对象。
 
 ## 类型 3 问
 
