@@ -90,6 +90,7 @@ typeof ''; // "string"
 typeof true; // "boolean"
 typeof 857857; // "number"
 typeof Symbol(); // "symbol"
+typeof 10n; // "bigint"
 
 typeof null; // "object"
 
