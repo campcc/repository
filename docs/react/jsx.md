@@ -8,6 +8,8 @@ nav:
 
 # JSX
 
+<Alert>参考链接：[JSX 代码是如何“摇身一变”成为 DOM 的？](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=510#/detail/pc?id=4850)</Alert>
+
 如果你不能很好地回答下面几个问题，那么很可能是你把 JSX 想的过于简单了。
 
 - JSX 的本质是什么，它和 JS 之间到底是什么关系？
@@ -28,7 +30,17 @@ React 官网对于 JSX 给出了一段定义，
 
 JSX 语法糖允许前端开发者使用我们最为熟悉的类 HTML 标签语法来创建虚拟 DOM，在降低学习成本的同时，也提升了研发效率与研发体验。
 
-### React.createElement
+## Babel：负责“编译”的工具链
+
+JSX 在被编译后，会变成一个针对 React.createElement 的调用，而 “编译” 这个动作，就是由 [Babel](https://www.babeljs.cn/) 完成的。
+
+**什么是 Babel ？**
+
+> Babel 是一个工具链，主要用于将 ECMAScript 2015+ 版本的代码转换为向后兼容的 JavaScript 语法，以便能够运行在当前和旧版本的浏览器或其他环境中。—— Babel 官网
+
+Babel 可以将 具备将 JSX 语法转换为 JavaScript 代码的能力，借助这个编译工具
+
+## React.createElement
 
 ```js
 export function createElement(type, config, children) {
